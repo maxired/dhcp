@@ -1,1 +1,4 @@
-module.exports = require("./lib/server");
+module.exports = {
+ server :  require("./lib/server"),
+ util :  require("./lib/util"),
+}
