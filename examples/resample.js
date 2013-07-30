@@ -1,14 +1,23 @@
 var DHCP = require('../lib/reserver');
 var server = new DHCP();
 
-var classicalDHCP = require('../lib/middleware/classicalDHCP');
+var initResponse = require('../lib/middleware/initResponse')({
+	serverIp: "172.16.42.1",
+	netmask: '255.255.255.0',
+	gateway: '172.16.42.1'
+});
+var classicalDHCP = require('../lib/middleware/classicalDHCP')({
+	beginIP: '172.16.42.30',
+	endIP: '172.16.42.30'
+});
 var IPByName = require('../lib/middleware/IPByName');
-
 
 server.use('request', function(message, response) {
 	console.log('request received');
 });
 
+
+server.use('discover', initResponse.discover);
 server.use('discover', function(message, response, cb) {
 
 	var next = function() {
