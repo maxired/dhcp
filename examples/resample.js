@@ -12,12 +12,9 @@ var classicalDHCP = require('../lib/middleware/classicalDHCP')({
 });
 var IPByName = require('../lib/middleware/IPByName');
 
-server.use('request', function(message, response) {
-	console.log('request received');
-});
-
-
 server.use('discover', initResponse.discover);
+server.use('request', initResponse.request );
+
 server.use('discover', function(message, response, cb) {
 
 	var next = function() {
@@ -35,6 +32,8 @@ server.use('discover', function(message, response, cb) {
 
 });
 
+
+server.use('request', classicalDHCP.request);
 
 server.use('message', function(message, response, cb) {
 	//console.log('message received', arguments);
